@@ -1,0 +1,363 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+  body{
+      color:black !important;
+      margin-bottom:20px;
+  }
+  .page-header {
+      margin: 0 0 1rem;
+  }
+
+  .brc-default-l1 {
+      border-color: black !important;
+  }
+
+  .text-grey-m2 {
+      color: black !important;
+  }
+
+  .pb-25, .py-25 {
+      padding: .5rem!important;
+  }
+
+  .bgc-default-tp1 {
+      background-color: #497d85!important;
+  }
+  .bgm {
+      background-color: #d87606!important;
+  }
+  .bgc-default-l4, .bgc-h-default-l4:hover {
+      background-color: #f3f8fa!important;
+  }
+  .btn-light {
+      color: #757984;
+      background-color: #a8b0c9;
+      border-color: #dddfe4;
+  }
+
+  a {
+      text-decoration: none;
+  }
+</style>
+
+
+<style>
+      body{
+      margin-top:5px;
+      color: #1c5cda;
+  }
+  
+  
+  .page-header {
+      margin: 0 0 1rem;
+  }
+  
+  .brc-default-l1 {
+      border-color: black !important;
+  }
+  
+  .text-grey-m2 {
+      color: black !important;
+  }
+  
+  .pb-25, .py-25 {
+      padding: .5rem!important;
+  }
+  
+  .bgc-default-tp1 {
+      background-color: #497d85!important;
+  }
+  .bgc-default-l4, .bgc-h-default-l4:hover {
+      background-color: #f3f8fa!important;
+  }
+  .btn-light {
+      color: #757984;
+      background-color: #a8b0c9;
+      border-color: #dddfe4;
+  }
+  
+  .width_cust{
+      max-width: 40%;
+  }
+  .box {
+      display: block;
+  }
+  .bold_text{
+    font-size: 20px;
+    font-weight: bold;
+    }
+  .title_text_color{
+    color: #f9b96e;
+    }
+  .normal_text_color{
+    color: black;
+    }
+
+    .square-div {
+      width: 98%;
+      height: 60px;
+      border: 2px solid black;
+      border-radius: 10px;
+      position: relative;
+      margin-bottom:5px;
+      margin-right:5px;
+  }
+  .label-span {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #ffc107;
+      font-weight:bold;
+      padding: 2px 5px;
+  }
+
+  @media print {
+    /* Hide the print button when printing */
+    .action-buttons {
+        display: none;
+    }
+    .back {
+        display: none;
+    }
+    .page-header {
+        margin: 0 0 0rem;
+    }
+    .title_text_color{
+        color: black;
+    }
+    .container {
+        margin: 1 0 0rem;
+    }
+    
+}
+</style>
+
+  
+      <div class="page-content container">
+          <div class="page-header text-blue-d2">
+              <div class="page-tools">
+                  <div class="row action-buttons">
+
+                      <div class="col-3 align-self-start d-sm-flex justify-content-start">
+                          <button class="btn bg-black btn-light mx-3px print-button" onclick="printPage()" data-title="Print">
+                              طباعة
+                          </button>
+                          <a class="btn bg-black btn-light mx-3px back" style="text-align:center;" href="{% url 'admin:index' %}">
+                              رجوع
+                          </a>
+                      </div>
+
+                  </div>
+                  
+                  
+              </div>
+          </div>
+      </div>
+  
+      <div class="container" >
+          <div class="row invoice">
+
+
+                  <div class="row py-5" style="background-color: #10626F; ">
+                    <div class="col d-flex justify-content-center">
+                        <div>
+                            <!-- Adjust the width and height as needed -->
+                            {% comment %} <img src="{{ logo_url }}" alt=""  style="max-width: 200px; max-height: 100px;"> {% endcomment %}
+                            <img src="{{ logo_url }}" alt=""  >
+                            
+                            <div class="my-2 d-flex justify-content-center">
+                              {% if chargeprocess.code %}
+                                <span class="text-600 mx-3 bold_text" style="color:#d59653;">رقم العملية</span> 
+                                <span class="text-600 bold_text" style="color:black;">{{chargeprocess.code}}</span> 
+                              {% endif %}
+                              {% if outdate %}
+                                <span class="text-600 mx-3 bold_text" style="color:#d59653;"> تاريخ الخروج</span> 
+                                <span class="text-600 bold_text" style="color:black;">{{outdate}}</span> 
+                              {% endif %}
+                            </div>
+                              
+                        </div>
+
+                    </div>
+                  </div>
+  
+                  <div class="row" style="background-color:#10626f;">
+
+                        <div class="col" >  
+                            <div class="row text-black bgc-default-tp1 ">
+                                
+                                <div class="col bold_text " style="background-color: #d87606"> معلومات الطلب</div>
+                                
+                                
+                            </div>
+
+                            <div class="row mb-2 mb-sm-0 py-25">
+                              <table class="table">
+                                <tbody>
+                                    {% if package.code %}
+                                  <tr>
+                                    <th scope="row"><i class="fa fa-circle"></th>
+                                    <td><span class = "bold_text title_text_color">كود الطلب:</span></td>
+                                    <td><span class = "bold_text normal_text_color" >{{package.code}}</span> </td>
+                                  </tr>
+                                  {% endif %}
+                                  {% if package.weight %}
+                                  <tr>
+                                    
+                                    <th scope="row"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></th>
+                                    <td><span class = "bold_text title_text_color ">وزن الطلب:</span> </td>
+                                    <td><span class = "bold_text normal_text_color" >{{package.weight}}</span> </td>
+                                  </tr>
+                                  {% endif %}
+                                  {% if package.price %}
+                                  <tr>
+                                    
+                                    <th scope="row"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></th>
+                                    <td><span class = "bold_text title_text_color "> سعر الطلب:</span>  </td>
+                                    <td><span class = "bold_text normal_text_color" >{{package.price}}</span>  </td>
+                                  </tr>
+                                  {% endif %}
+                                  {% if package.discription %}
+                                  <tr>
+                                    
+                                    <th scope="row"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></th>
+                                    <td><span class = "bold_text title_text_color "> وصف الطلب:</span>   </td>
+                                    <td><span class = "bold_text normal_text_color" >{{package.discription}}</span>  </td>
+                                  </tr>
+                                  {% endif %}
+                                  
+                                  
+                                </tbody>
+                              </table>
+                            </div>
+
+                        </div>
+
+                        <div class="col" >  
+                            <div class="row text-black bgc-default-tp1 ">
+                                <div class="col bold_text" style="background-color: #d87606"> معلومات الشحن</div>
+                            </div>
+
+                            <div class="row mb-2 mb-sm-0 py-25">
+
+                              <table class="table">
+                                <tbody>
+                                    {% if chargeprocess.from_client %}
+                                  <tr>
+                                    <th scope="row"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></th>
+                                    <td>
+                                      <p class = "bold_text title_text_color">   من:</p>
+                                      <p class = "bold_text normal_text_color" >{{chargeprocess.from_client.name}}</p>
+                                      <p class = "bold_text normal_text_color" >{{chargeprocess.from_place}}</p>
+                                      <p class = "bold_text normal_text_color" >{{chargeprocess.from_client.phone_number}}</p>
+                                    </td>
+                                    <td>
+                                      <p class = "bold_text title_text_color">   الى:</p>
+                                      <p class = "bold_text normal_text_color" >{{chargeprocess.to_client.name}}</p>
+                                      <p class = "bold_text normal_text_color" >{{chargeprocess.to_place}}</p>
+                                      <p class = "bold_text normal_text_color" >{{chargeprocess.to_client.phone_number}}</p>
+                                    </td>
+                                    
+                                  </tr>
+                                  {% endif %}
+
+                                </tbody>
+                            </table>
+
+                            {% comment %} <div class="row square-div">
+                              <span class="label-span">امضاءالمعرض : </span>
+                            </div>
+                            <div class="row square-div">
+                              <span class="label-span">امضاء المشترى : </span>
+                            </div> {% endcomment %}
+
+                            </div>
+
+                        </div>
+                  </div>
+
+                  <div class="row" style="background-color:#10626f;">
+                    
+                    
+                      <div class="text-grey-m2">
+                        <div class="row text-black bgm py-25 bold_text">
+                          للتواصل معنا
+                        </div>
+                        {% if companyinfo.address %}
+                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> 
+                          <span class="text-600 text-90 bold_text title_text_color mx-3">العنوان:</span> 
+                          <span class="bold_text normal_text_color">{{companyinfo.address}}</span> </div>
+                        {% endif %}
+                        {% if companyinfo.address %}
+                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> 
+                          <span class="text-600 text-90 bold_text title_text_color mx-3">موبايل:</span> 
+                          <span class="bold_text normal_text_color">{{companyinfo.phone_number}}</span> </div>
+                        {% endif %}
+                        {% if companyinfo.mail %}
+                        <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> 
+                          <span class="text-600 text-90 bold_text title_text_color mx-3">الايميل:</span >  
+                            <span class="bold_text normal_text_color">{{companyinfo.mail}}</span></div>
+                        {% endif %}
+                      </div>
+                    
+                  </div>
+
+                  <div class="row" style="background-color:#10626f;">
+                    
+                    
+                      <div class="text-grey-m2">
+                        <div class="row text-black bgm py-25 bold_text">
+                          مرفقات
+                        </div>
+                        {% if package.pill %}
+                        <div class="row py-5" >
+                          <div class="col d-flex justify-content-center">
+                            <img src="{{package.pill.url}}" alt="" style="max-width:700px;" >
+                          </div>
+                        </div>
+                        {% endif %}
+                        
+                    
+                  </div>
+
+
+
+
+
+          </div>
+      </div>
+  
+  
+  
+  <script>
+      function printPage() {
+      
+          // Create a link element for the print stylesheet
+          //var style = document.createElement('link');
+          //style.type = 'text/css';
+          //style.rel = 'stylesheet';
+         // style.href = 'path/to/print-styles.css'; // Replace with the actual path to your print stylesheet
+      
+          // Append the link element to the head of the document
+          //document.head.appendChild(style);
+      
+          // Trigger the print dialog
+          window.print();
+      
+          // Remove the added print stylesheet after printing
+          //style.parentNode.removeChild(style);
+      }
+      
+  </script>
+  
+
+
+
+
+
+{% endblock content %} 

@@ -1,0 +1,38 @@
+{% extends "admin/index.html" %}
+{% load static %}
+
+{% block extrahead %}
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            shortcuts_div = document.getElementById('content-related')
+            shortcuts_div.innerHTML = `
+            <div class="app-maindata module " style="width:400px;">
+                <table>
+                <caption>
+                    <span class="section" style=" font-weight:bold; font-size:20px;"> اختصارات</span>
+                </caption>
+                    <tbody>
+                        <tr class="model-project">
+                        <th scope="row"><a id="activevisit" style=" font-weight:bold; font-size:17px;color:red;" href="/admin/maindata/chargeoperation/?delivering_status__exact=1">شحن فى حالة انتظـــــار</a></th>
+                        </tr>
+                        <tr class="model-project">
+                        <th scope="row"><a id="activevisit" style=" font-weight:bold; font-size:17px;color:red;" href="/admin/maindata/chargeoperation/?delivering_status__exact=2">شحن فى حالة خــــــــروج</a></th>
+                        </tr>
+                        <tr class="model-project">
+                        <th scope="row"><a id="activevisit" style=" font-weight:bold; font-size:17px;color:red;" href="/admin/maindata/chargeoperation/?delivering_status__exact=3">شحن فى حالة تـــــــــــــــم</a></th>
+                        </tr>
+                        <tr class="model-project">
+                        <th scope="row"><a id="activevisit" style=" font-weight:bold; font-size:17px;color:red;" href="/admin/maindata/chargeoperation/?delivering_status__exact=4">شحن فى حالة مــــــرتجع</a></th>
+                        </tr>
+                </tbody></table>
+            </div>
+            `
+            user_tools = document.getElementById('user-tools')
+            
+            // 
+        });
+    </script>
+
+
+    
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+
+{% block admin_change_form_document_ready %}
+    {{ block.super }}
+    <style>
+        .column-sub_category_detail {
+            max-width: 50%;
+        }
+        .admin-autocomplete{
+            max-width : 120px !important;
+        }
+        .vIntegerField{
+            max-width : 50px !important;
+        }
+
+        .field-file{
+            max-width : 160px !important;
+        }
+    </style>
+    <script src="{% static 'js/jquery.js' %}"></script>
+
+    <script>
+      let deletelink = document.getElementsByClassName('deletelink')
+      let addanother = document.getElementsByName('_addanother')
+      deletelink[0].style.display = 'none'
+      addanother[0].style.display = 'none'
+  </script>
+  
+
+    <script>
+        let selected_client_1 = document.getElementById("id_from_client");
+        let selected_client_1_address = document.getElementById("id_from_place");
+    
+        let span__client_1_address = document.createElement("span");
+        span__client_1_address.textContent = "";  
+        span__client_1_address.style.margin = "10px";
+        span__client_1_address.style.color = "blue";
+        span__client_1_address.id = 'address_span'
+        selected_client_1_address.parentNode.insertBefore(span__client_1_address, selected_client_1_address.nextSibling);
+    
+        selected_client_1.onchange = function(){
+            console.log(selected_client_1.value)
+            let selected_client_1_id = selected_client_1.value;
+            fetch(`/getselectedclientaddress/${selected_client_1_id}` , {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  // 'X-CSRFToken':{{csrftoken}} // Assuming you have a function to get the CSRF token
+                },
+              })
+              .then(response => response.json())
+              .then(data => {
+                console.log(data);
+                span__client_1_address.textContent = ` العنوان الافتراضى فى حالة ترك العنوان خالى هو : "${data}"`
+              });
+              
+            }
+    </script>
+    
+    <script>
+        let selected_client_2 = document.getElementById("id_to_client");
+        let selected_client_2_address = document.getElementById("id_to_place");
+    
+        let span__client_2_address = document.createElement("span");
+        span__client_2_address.textContent = "";  
+        span__client_2_address.style.margin = "10px";
+        span__client_2_address.style.color = "blue";
+        span__client_2_address.id = 'address_span'
+        selected_client_2_address.parentNode.insertBefore(span__client_2_address, selected_client_2_address.nextSibling);
+    
+        selected_client_2.onchange = function(){
+            console.log(selected_client_2.value)
+            let selected_client_2_id = selected_client_2.value;
+            fetch(`/getselectedclientaddress/${selected_client_2_id}` , {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  // 'X-CSRFToken':{{csrftoken}} // Assuming you have a function to get the CSRF token
+                },
+              })
+              .then(response => response.json())
+              .then(data => {
+                console.log(data);
+                span__client_2_address.textContent = ` العنوان الافتراضى فى حالة ترك العنوان خالى هو : "${data}"`
+              });
+              
+            }
+    
+    </script>
+    
+
+
+
+
+{% endblock %}
